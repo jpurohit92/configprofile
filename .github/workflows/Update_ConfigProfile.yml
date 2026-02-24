@@ -1,0 +1,35 @@
+name: 02-vSphere Configuration Profile Update
+
+on:
+  push:
+    branches: main
+    paths: 'vc-*/*.json'
+
+jobs:
+  UpdateConfig:
+    runs-on: configprofile
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Process JSON Changes
+        shell: pwsh
+        env:
+          VC_USER: ${{ secrets.VC_USERNAME }}
+          VC_PASS: ${{ secrets.VC_PASSWORD }}
+        run: |
+          # Identify which specific JSON files changed
+          $changedFiles = git diff --name-only HEAD^ HEAD | Where-Object { $_ -like "vc-*/*.json" }
+          
+          foreach ($file in $changedFiles) {
+              $vcName = ($file -split '/')[0]
+              Write-Host "Detected change in $file. Creating Draft on $vcName..."
+              
+              ./scripts/update_config.ps1 `
+                -vCenter $vcName `
+                -FilePath $file `
+                -Username $env:VC_USER `
+                -Password $env:VC_PASS
+          }

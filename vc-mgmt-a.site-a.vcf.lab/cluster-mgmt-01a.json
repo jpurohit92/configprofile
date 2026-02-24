@@ -1,0 +1,430 @@
+{
+    "profile": {
+        "esx": {
+            "syslog": {
+                "global_settings": {
+                    "remote_host_max_msg_len": 4096
+                }
+            },
+            "system": {
+                "system_time": {
+                    "enabled": true,
+                    "protocol": "NTP",
+                    "ntp_config": {
+                        "server": [
+                            {
+                                "command": "SERVER",
+                                "hostname": "10.1.1.1"
+                            }
+                        ]
+                    }
+                }
+            },
+            "network": {
+                "vmknics": [
+                    {
+                        "ip": {
+                            "dhcp": false,
+                            "ipv6": {
+                                "dhcp": false,
+                                "dhcp_dns": false,
+                                "auto_configuration_enabled": false
+                            },
+                            "dhcp_dns": false,
+                            "ipv6_enabled": true
+                        },
+                        "mtu": 8000,
+                        "device": "vmk2",
+                        "enabled": true,
+                        "mac_mode": "AUTO_GENERATED",
+                        "vds_port": {
+                            "switch_name": "vds02-mgmt-01a",
+                            "portgroup_name": "vsan-vds02-mgmt-01a"
+                        },
+                        "enabled_services": {
+                            "vsan": true
+                        },
+                        "port_connection_type": "VDS",
+                        "net_stack_instance_key": "defaultTcpipStack",
+                        "ip_route_default_gateway": "10.1.2.1"
+                    },
+                    {
+                        "ip": {
+                            "dhcp": false,
+                            "ipv6": {
+                                "dhcp": false,
+                                "dhcp_dns": false,
+                                "auto_configuration_enabled": false
+                            },
+                            "dhcp_dns": false,
+                            "ipv6_enabled": true
+                        },
+                        "mtu": 1500,
+                        "device": "vmk0",
+                        "enabled": true,
+                        "mac_mode": "AUTO_GENERATED",
+                        "vds_port": {
+                            "switch_name": "vds01-mgmt-01a",
+                            "portgroup_name": "mgmt-vds01-mgmt-01a"
+                        },
+                        "enabled_services": {
+                            "management": true
+                        },
+                        "port_connection_type": "VDS",
+                        "net_stack_instance_key": "defaultTcpipStack",
+                        "ip_route_default_gateway": "0.0.0.0"
+                    },
+                    {
+                        "ip": {
+                            "dhcp": false,
+                            "ipv6": {
+                                "dhcp": false,
+                                "dhcp_dns": false,
+                                "auto_configuration_enabled": false
+                            },
+                            "dhcp_dns": false,
+                            "ipv6_enabled": true
+                        },
+                        "mtu": 8000,
+                        "device": "vmk1",
+                        "enabled": true,
+                        "mac_mode": "AUTO_GENERATED",
+                        "vds_port": {
+                            "switch_name": "vds01-mgmt-01a",
+                            "portgroup_name": "vmotion-vds01-mgmt-01a"
+                        },
+                        "enabled_services": {
+                            "vmotion": true
+                        },
+                        "port_connection_type": "VDS",
+                        "net_stack_instance_key": "vmotion",
+                        "ip_route_default_gateway": "0.0.0.0"
+                    }
+                ],
+                "net_stacks": [
+                    {
+                        "dns": {
+                            "name_server": [
+                                "10.1.1.1"
+                            ]
+                        },
+                        "key": "defaultTcpipStack",
+                        "name": "defaultTcpipStack",
+                        "routing_config": {
+                            "ipv4_default_gateway": "10.1.1.1"
+                        }
+                    },
+                    {
+                        "key": "vmotion",
+                        "name": "vmotion",
+                        "routing_config": {
+                            "ipv4_default_gateway": "10.1.3.1"
+                        }
+                    }
+                ],
+                "firewall_rule_sets": [
+                    {
+                        "name": "DVFilter",
+                        "enabled": true
+                    }
+                ]
+            },
+            "vmkernel": {
+                "module_settings": [
+                    {
+                        "options": "ipv6=1",
+                        "module_name": "tcpip4"
+                    },
+                    {
+                        "options": "",
+                        "module_name": "smartpqi"
+                    },
+                    {
+                        "options": "",
+                        "module_name": "i40en"
+                    },
+                    {
+                        "options": "",
+                        "module_name": "ixgben"
+                    },
+                    {
+                        "options": "",
+                        "module_name": "irdman"
+                    }
+                ]
+            },
+            "network_vds": {
+                "switches": [
+                    {
+                        "name": "vds02-mgmt-01a",
+                        "uplinks": [
+                            {
+                                "nic": "vmnic2",
+                                "uplink_name": "uplink1"
+                            },
+                            {
+                                "nic": "vmnic3",
+                                "uplink_name": "uplink2"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "vds01-mgmt-01a",
+                        "uplinks": [
+                            {
+                                "nic": "vmnic1",
+                                "uplink_name": "uplink2"
+                            },
+                            {
+                                "nic": "vmnic0",
+                                "uplink_name": "uplink1"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "authorization": {
+                "permissions": [
+                    {
+                        "is_group": false,
+                        "principal": "root",
+                        "access_mode": "Admin"
+                    }
+                ]
+            },
+            "authentication": {
+                "user_accounts": [
+                    {
+                        "name": "root",
+                        "description": "Administrator",
+                        "password_hash": "$6$24.72JK6$fLFr/W6c/YgJ6rvZChrU8jqPkALTO4.4tuFwHp1uq2G2fqUBzNTvTtTNkLh8VEF6g0v3Vbvc6bNZeqm8xf7OV1"
+                    }
+                ]
+            },
+            "advanced_options": {
+                "mem": {
+                    "VM_overhead_growth_limit": 0
+                },
+                "net": {
+                    "follow_hardware_mac": 0
+                },
+                "misc": {
+                    "heartbeat_panic_timeout": 60
+                },
+                "VMFS3": {
+                    "hardware_accelerated_locking": 1
+                },
+                "power": {
+                    "cpu_policy": "High Performance"
+                }
+            }
+        },
+        "nsx": {
+            "fabric": {
+                "transport_node_profile": {
+                    "policy_path": "/infra/host-transport-node-profiles/30050428-7d14-4d4f-b108-e88cfcf4af7e",
+                    "enable_nsx_on_dvpg": true
+                }
+            }
+        },
+        "esx_update": {
+            "software": {
+                "acceptance_level": {
+                    "level": "COMMUNITY_SUPPORTED"
+                }
+            }
+        }
+    },
+    "metadata": {
+        "reference_host": {
+            "uuid": "d27b4d56-d8be-e918-823b-cce9c540df63",
+            "build": "Releasebuild-25148076",
+            "patch": "0",
+            "update": "0",
+            "version": "9.0.2"
+        }
+    },
+    "host-override": {
+        "6f7a4d56-4bf7-61ae-de67-28684221fd8f": {
+            "esx": {
+                "authentication": {
+                    "user_accounts": [
+                        {
+                            "name": "root",
+                            "description": "Administrator",
+                            "password_hash": "$6$h83j5XZ1$wdC1omqfXDF1nycT.DGC70OGk44Z2YEB.P7xD6Xi/b5m99/HtsUAoXvvWti8KizUbR0ytwnjrWmgYO0JuNxLf."
+                        }
+                    ]
+                }
+            }
+        },
+        "b0444d56-8925-3a77-36bf-f685473df0e7": {
+            "esx": {
+                "authentication": {
+                    "user_accounts": [
+                        {
+                            "name": "root",
+                            "description": "Administrator",
+                            "password_hash": "$6$HdA.W8l7$ZjznUPyN60UReK2q0.Bt2VBJm9.wcusBLrQZzlGQ2/u0IzurK6nAHfZ0TJRurHEm3v.2rHsAdP6zo4Y9xslED/"
+                        }
+                    ]
+                }
+            }
+        },
+        "c3ce4d56-461f-d4e4-ff1c-8ad4cdf94774": {
+            "esx": {
+                "authentication": {
+                    "user_accounts": [
+                        {
+                            "name": "root",
+                            "description": "Administrator",
+                            "password_hash": "$6$EiZxdCyU$B0Q9H8E6wTKwa3lo7DxdDUaldgOChZj72grYw2XIi6nFrRVI2LhXEqz8qF61hPVuN/TM7x6IZ4WwVLROsIgHb0"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "host-specific": {
+        "6f7a4d56-4bf7-61ae-de67-28684221fd8f": {
+            "esx": {
+                "network": {
+                    "vmknics": [
+                        {
+                            "ip": {
+                                "ipv4_address": "10.1.2.103",
+                                "ipv4_subnet_mask": "255.255.255.128"
+                            },
+                            "device": "vmk2"
+                        },
+                        {
+                            "ip": {
+                                "ipv4_address": "10.1.1.103",
+                                "ipv4_subnet_mask": "255.255.255.0"
+                            },
+                            "device": "vmk0"
+                        },
+                        {
+                            "ip": {
+                                "ipv4_address": "10.1.3.103",
+                                "ipv4_subnet_mask": "255.255.255.128"
+                            },
+                            "device": "vmk1"
+                        }
+                    ],
+                    "net_stacks": [
+                        {
+                            "key": "defaultTcpipStack",
+                            "host_name": "esx-03a.site-a.vcf.lab"
+                        }
+                    ]
+                }
+            }
+        },
+        "b0444d56-8925-3a77-36bf-f685473df0e7": {
+            "esx": {
+                "network": {
+                    "vmknics": [
+                        {
+                            "ip": {
+                                "ipv4_address": "10.1.2.102",
+                                "ipv4_subnet_mask": "255.255.255.128"
+                            },
+                            "device": "vmk2"
+                        },
+                        {
+                            "ip": {
+                                "ipv4_address": "10.1.1.102",
+                                "ipv4_subnet_mask": "255.255.255.0"
+                            },
+                            "device": "vmk0"
+                        },
+                        {
+                            "ip": {
+                                "ipv4_address": "10.1.3.102",
+                                "ipv4_subnet_mask": "255.255.255.128"
+                            },
+                            "device": "vmk1"
+                        }
+                    ],
+                    "net_stacks": [
+                        {
+                            "key": "defaultTcpipStack",
+                            "host_name": "esx-02a.site-a.vcf.lab"
+                        }
+                    ]
+                }
+            }
+        },
+        "c3ce4d56-461f-d4e4-ff1c-8ad4cdf94774": {
+            "esx": {
+                "network": {
+                    "vmknics": [
+                        {
+                            "ip": {
+                                "ipv4_address": "10.1.2.104",
+                                "ipv4_subnet_mask": "255.255.255.128"
+                            },
+                            "device": "vmk2"
+                        },
+                        {
+                            "ip": {
+                                "ipv4_address": "10.1.1.104",
+                                "ipv4_subnet_mask": "255.255.255.0"
+                            },
+                            "device": "vmk0"
+                        },
+                        {
+                            "ip": {
+                                "ipv4_address": "10.1.3.104",
+                                "ipv4_subnet_mask": "255.255.255.128"
+                            },
+                            "device": "vmk1"
+                        }
+                    ],
+                    "net_stacks": [
+                        {
+                            "key": "defaultTcpipStack",
+                            "host_name": "esx-04a.site-a.vcf.lab"
+                        }
+                    ]
+                }
+            }
+        },
+        "d27b4d56-d8be-e918-823b-cce9c540df63": {
+            "esx": {
+                "network": {
+                    "vmknics": [
+                        {
+                            "ip": {
+                                "ipv4_address": "10.1.2.101",
+                                "ipv4_subnet_mask": "255.255.255.128"
+                            },
+                            "device": "vmk2"
+                        },
+                        {
+                            "ip": {
+                                "ipv4_address": "10.1.1.101",
+                                "ipv4_subnet_mask": "255.255.255.0"
+                            },
+                            "device": "vmk0"
+                        },
+                        {
+                            "ip": {
+                                "ipv4_address": "10.1.3.101",
+                                "ipv4_subnet_mask": "255.255.255.128"
+                            },
+                            "device": "vmk1"
+                        }
+                    ],
+                    "net_stacks": [
+                        {
+                            "key": "defaultTcpipStack",
+                            "host_name": "esx-01a.site-a.vcf.lab"
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}

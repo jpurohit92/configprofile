@@ -1,0 +1,20 @@
+vc-mgmt-a.site-a.vcf.lab:
+  clusters:
+    - name: "cluster-mgmt-02a"
+      managedByVCP: true
+      refHost: "esx-08a.site-a.vcf.lab"
+    - name: "cluster-mgmt-03a"
+      managedByVCP: true
+      refHost: "esx-11a.site-a.vcf.lab"
+    - name: "cluster-mgmt-01a"
+      managedByVCP: true
+      refHost: "esx-01a.site-a.vcf.lab"
+
+vc-wld01-a.site-a.vcf.lab:
+  clusters:
+    - name: "cluster-wld01-01a"
+      managedByVCP: true
+      refHost: "esx-05a.site-a.vcf.lab"
+    - name: "cluster-wld01-02a"
+      managedByVCP: true
+      refHost: "esx-14a.site-a.vcf.lab"

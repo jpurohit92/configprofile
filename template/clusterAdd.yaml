@@ -1,0 +1,5 @@
+vcName:
+  clusters:
+    - name: "clusterName"
+      managedByVCP: true
+      refHost: "reference ESX Hostname"

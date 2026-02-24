@@ -1,0 +1,46 @@
+name: 01 vSphere Configuration Profile - Transition and Update Workflow
+
+permissions:
+  contents: write 
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'vcp_managed_clusters.yaml'
+
+jobs:
+  EnableVCP:
+    runs-on: configprofile 
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Process YAML and Enable VCP
+        shell: pwsh
+        env:
+          VC_USER: ${{ secrets.VC_USERNAME }}
+          VC_PASS: ${{ secrets.VC_PASSWORD }}
+        run: |
+          # No Install-Module needed here since they are pre-installed on your runner
+          ./scripts/enable_vcp.ps1 `
+            -FilePath "vcp_managed_clusters.yaml" `
+            -Username $env:VC_USER `
+            -Password $env:VC_PASS
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          
+          git add .
+          if [ -n "$(git status --porcelain)" ]; then
+            git commit -m "Automated: Created vCenter folders and cluster JSONs"
+            git push origin main
+          else
+            echo "No infrastructure changes detected."
+          fi
