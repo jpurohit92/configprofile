@@ -1,4 +1,4 @@
-name: 01 vSphere Configuration Profile - Transition and Update Workflow
+name: 01 vSphere Configuration Profile - Transition Workflow
 
 permissions:
   contents: write 
